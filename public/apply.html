@@ -719,10 +719,6 @@
                                 document.getElementById('app').innerHTML = html;
                                 document.getElementById('tit').innerHTML = "Upload any documents you have to speed up the application process";
                                 document.getElementById('bar').setAttribute('style', 'width:99%');
-
-                                console.log("session storage");
-                                for (i = 0; i < sessionStorage.length; i++) {
-                                    console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
                                 }
                             }
                             function review() {
@@ -773,7 +769,6 @@
                                 }
                                 html += '<br><button type="submit" class="btn btn-success btn-block">Confirm &amp; Apply</button></form>';
                                 document.getElementById('whole').innerHTML = html;
-                                console.log(sessionStorage.getItem('bankruptcy'));
                             }
                         </script>
                     </div>
