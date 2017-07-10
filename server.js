@@ -96,6 +96,28 @@ app.get('/submit', function(request, response) {
     response.send('application sent!');
 });
 
+app.get('/contact', function(request, response) {
+    var mailOptions = {
+      from: 'Fundrite Lead <blasts@blastnotifications.com>',
+      to: 'dibend8@gmail.com',
+      subject: 'New Fundrite Lead',
+      text: 'Name:\n' + request.query.name +
+            '\n\nEmail:\n' + request.query.email +
+            '\n\nPhone:\n' + request.query.phone +
+            '\n\nMessage:\n' + request.query.message
+    };
+
+    mailer.sendMail(mailOptions, function(err, res) {
+      if(err) {
+        console.log(err);
+      }
+      mailer.close();
+    });
+    console.log('message sent');
+    response.send('message sent!');
+
+});
+
 app.get('*', function(request, response) {
   response.status(404);
   response.sendFile(path.join(__dirname+'/public/404.html'));
