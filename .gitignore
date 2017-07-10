@@ -1,3 +1,4 @@
 node_modules
 letsencrypt
 fundrite.log
+config.json

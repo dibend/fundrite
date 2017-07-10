@@ -23,6 +23,8 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "nodemailer": "^4.0.1",
+    "nodemailer-smtp-transport": "^2.7.4",
     "path": "^0.12.7"
   }
 }
