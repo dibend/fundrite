@@ -80,8 +80,8 @@ app.get('/submit', function(request, response) {
     emailText += '\n\nOwner/Officer Bankruptcy in Last 5 Years:\n' + request.query.bankruptcy;
 
     var mailOptions = {
-      from: 'Fundrite Applicant <blasts@blastnotifications.com>',
-      to: 'dibend8@gmail.com',
+      from: config.from,
+      to: config.to,
       subject: 'New Fundrite Application',
       text: emailText 
     };
