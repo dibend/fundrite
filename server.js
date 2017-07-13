@@ -6,6 +6,8 @@ var compression = require('compression');
 var path = require('path');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var busboy = require('connect-busboy');
+var mkdirp = require('mkdirp');
 var config = require('./config');
 
 var mailer = nodemailer.createTransport(smtpTransport({
@@ -32,6 +34,7 @@ var creds = {
 };
 
 var app = express();
+app.use(busboy());
 app.use(compression());
 app.use(express.static('public'));
 
@@ -98,8 +101,8 @@ app.get('/submit', function(request, response) {
 
 app.get('/contact', function(request, response) {
     var mailOptions = {
-      from: 'Fundrite Lead <blasts@blastnotifications.com>',
-      to: 'dibend8@gmail.com',
+      from: config.from,
+      to: config.to,
       subject: 'New Fundrite Lead',
       text: 'Name:\n' + request.query.name +
             '\n\nEmail:\n' + request.query.email +
@@ -118,14 +121,30 @@ app.get('/contact', function(request, response) {
 
 });
 
+app.post('/up', function(request, response) {
+    request.pipe(request.busboy);
+    request.busboy.on('file', function(fieldname, file, filename) {
+        var path = './uploads/' + request.ip + '/';
+        mkdirp(path, function (err) {
+            if (err) {
+                console.error(err);
+            } else {
+                var fstream = fs.createWriteStream(path + filename);
+                file.pipe(fstream);
+            }
+        });
+    });
+    response.send('uploaded');
+});
+
 app.get('*', function(request, response) {
   response.status(404);
   response.sendFile(path.join(__dirname+'/public/404.html'));
 });
 
-http.createServer(function (req, res) {
-  res.writeHead(301, { 'Location': 'https://' + req.headers['host'] + req.url });
-  res.end();
+http.createServer(function (request, response) {
+  response.writeHead(301, { 'Location': 'https://' + request.headers['host'] + request.url });
+  response.end();
 }).listen(8080);
 
 https.createServer(creds, app).listen(8443);

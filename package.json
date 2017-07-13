@@ -19,10 +19,12 @@
   "homepage": "https://github.com/dibend/fundrite#readme",
   "dependencies": {
     "compression": "^1.6.2",
+    "connect-busboy": "0.0.2",
     "express": "^4.15.3",
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "mkdirp": "^0.5.1",
     "nodemailer": "^4.0.1",
     "nodemailer-smtp-transport": "^2.7.4",
     "path": "^0.12.7"

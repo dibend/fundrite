@@ -12,6 +12,9 @@
 
     <link rel="shortcut icon" href="img/agency/fav.png" type="image/png"/>
 
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -706,26 +709,36 @@
                             };
                             function uploads() {
                                 var html = `<div class="btn-block btn-group-vertical">
-                                <label class="btn btn-primary btn-block btn-file">Most recent Profit/Loss &amp;<br>Financial Statements<input id="pl" type="file" style="display: none;"></label>
-                                <label class="btn btn-primary btn-block btn-file">Most Recent Business &amp;<br>Personal Tax Returns<input id="tr" type="file" style="display: none;"></label>
-                                <label class="btn btn-primary btn-block btn-file">Last 3 Months<br>Bank Statements<input id="bs" type="file" style="display: none;"></label>
-                                <label class="btn btn-primary btn-block btn-file">Most recent 1099<input id="tn" type="file" style="display: none;"></label>
-                                <label class="btn btn-primary btn-block btn-file">Credit Report<input id="cr" type="file" style="display: none;"></label>
+                                <form style="width:100%" id="pl" method="post" action="/up" enctype="multipart/form-data">
+                                <label class="btn btn-primary btn-block">Most recent Profit/Loss &amp;<br>Financial Statements<input style="display: none;" type='file' name='fileUploaded'/></label>
+                                <button class="btn btn-success btn-block" type="submit">Upload</button></form><br>
+                                <form style="width:100%" id="tr" method="post" action="/up" enctype="multipart/form-data">
+                                <label class="btn btn-primary btn-block">Most Recent Business &amp;<br>Personal Tax Returns<input style="display: none;" type='file' name='fileUploaded'/></label>
+                                <button class="btn btn-success btn-block" type="submit">Upload</button></form><br>
+                                <form style="width:100%" id="bs" method="post" action="/up" enctype="multipart/form-data">
+                                <label class="btn btn-primary btn-block">Last 3 Months<br>Bank Statements<input style="display: none;" type='file' name='fileUploaded'/></label>
+                                <button class="btn btn-success btn-block" type="submit">Upload</button></form><br>
+                                <form style="width:100%" id="tn" method="post" action="/up" enctype="multipart/form-data">
+                                <label class="btn btn-primary btn-block">Most recent 1099<input style="display: none;" type='file' name='fileUploaded'/></label>
+                                <button class="btn btn-success btn-block" type="submit">Upload</button></form><br>
+                                <form style="width:100%" id="cr" method="post" action="/up" enctype="multipart/form-data">
+                                <label class="btn btn-primary btn-block">Credit Report<input style="display: none;" type='file' name='fileUploaded'/></label>
+                                <button class="btn btn-success btn-block" type="submit">Upload</button></form><br>
                                 <button class="btn btn-success btn-block" onclick="review()">Review &amp; Apply</button>
+                                </div><br><br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:99%"></div>
                                 </div>`;
 
-                                document.getElementById('app').innerHTML = html;
+                                document.getElementById('whole').innerHTML = html;
+                                $('#pl').ajaxForm();
+                                $('#tr').ajaxForm();
+                                $('#bs').ajaxForm();
+                                $('#tn').ajaxForm();
+                                $('#cr').ajaxForm();
                                 document.getElementById('tit').innerHTML = "Upload any documents you have to speed up the application process";
-                                document.getElementById('bar').setAttribute('style', 'width:99%');
                             }
                             function review() {
-                                var pl = document.getElementById('pl').files[0];
-                                var tr = document.getElementById('tr').files[0];
-                                var bs = document.getElementById('bs').files[0];
-                                var bs = document.getElementById('tn').files[0];
-                                var cr = document.getElementById('cr').files[0];
-                                console.log(pl + ' ' + tr + ' ' + bs + ' ' + cr);
-                                
                                 document.getElementById('tit').innerHTML = "Review &amp; Apply";
                                 var html = '<h5>Submitting this application is equivalent to a signature</h5><form action="/submit" style="text-align:left"><br>' +
                                 '<br><h5>Business Name:</h5><input name="name" id="input" class="form-control" value="' + sessionStorage.getItem('name') + '">' + 
@@ -771,7 +784,8 @@
                                 } else {
                                     html += '<h5><label class="radio-inline" style="padding:5px"><input type="radio" name="bankruptcy" value="true">Yes</label><label class="radio-inline" style="padding:5px"><input checked="checked" type="radio" name="bankruptcy" value="false">No</label></h5>';
                                 }
-                                html += '<br><button type="submit" class="btn btn-success btn-block">Confirm &amp; Apply</button></form>';
+                                html += '<br><button type="submit" class="btn btn-success btn-block">Confirm &amp; Apply</button></form>' + 
+                                '<br><div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:100%"></div></div>';
                                 document.getElementById('whole').innerHTML = html;
                             }
                         </script>
@@ -819,7 +833,6 @@
         </div>
     </footer>
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/tether/tether.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
