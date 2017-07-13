@@ -8,6 +8,7 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var busboy = require('connect-busboy');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 var config = require('./config');
 
 var mailer = nodemailer.createTransport(smtpTransport({
@@ -83,20 +84,46 @@ app.get('/submit', function(request, response) {
     emailText += '\n\nOwner/Officer Bankruptcy in Last 5 Years:\n' + request.query.bankruptcy;
 
     var mailOptions = {
-      from: config.from,
-      to: config.to,
-      subject: 'New Fundrite Application',
-      text: emailText 
+        from: config.from,
+        to: config.to,
+        subject: 'New Fundrite Application',
+        text: emailText,
     };
 
-    mailer.sendMail(mailOptions, function(err, res) {
-      if(err) {
-        console.log(err);
-      }
-      mailer.close();
-    });
+    var attachments = [];
+    var upPath = './uploads/' + request.ip + '/';
+
+    if(fs.existsSync(upPath)) {
+        fs.readdir(upPath, function(err, files) {
+            files.forEach(function(file) {
+                var attachment = {
+                    filename: file,
+                    path: upPath + file
+                };
+                attachments.push(attachment);
+            });
+
+            mailOptions.attachments = attachments;
+            mailer.sendMail(mailOptions, function(err, res) {
+                if(err) {
+                    console.log(err);
+                }
+                mailer.close();
+                rimraf(upPath, function() {
+                    console.log(upPath + ' deleted');
+                });
+            });
+        });
+    } else {
+        mailer.sendMail(mailOptions, function(err, res) {
+            if(err) {
+                console.log(err);
+            }
+            mailer.close();
+        });
+    }
     console.log('app sent');
-    response.send('application sent!');
+    response.redirect('/app_sent.html');
 });
 
 app.get('/contact', function(request, response) {
@@ -117,19 +144,18 @@ app.get('/contact', function(request, response) {
       mailer.close();
     });
     console.log('message sent');
-    response.send('message sent!');
-
+    response.redirect('/message_sent.html');
 });
 
 app.post('/up', function(request, response) {
     request.pipe(request.busboy);
     request.busboy.on('file', function(fieldname, file, filename) {
-        var path = './uploads/' + request.ip + '/';
-        mkdirp(path, function (err) {
+        var upPath = './uploads/' + request.ip + '/';
+        mkdirp(upPath, function (err) {
             if (err) {
                 console.error(err);
             } else {
-                var fstream = fs.createWriteStream(path + filename);
+                var fstream = fs.createWriteStream(upPath + filename);
                 file.pipe(fstream);
             }
         });

@@ -27,6 +27,7 @@
     "mkdirp": "^0.5.1",
     "nodemailer": "^4.0.1",
     "nodemailer-smtp-transport": "^2.7.4",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "rimraf": "^2.6.1"
   }
 }
