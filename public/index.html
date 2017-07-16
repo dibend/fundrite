@@ -82,7 +82,23 @@
         </div>
     </nav>
 
-    <a href="apply.html" style="font-weight:bold;border:2px solid #3252A4;color:white;padding:15px;background:#3C8F46;position:fixed;bottom:3%;right:3%;z-index:100;">Apply Now!&nbsp;</a>
+    <a id="applyButton" href="apply.html" style="font-weight:bold;border:2px solid #3252A4;color:white;padding:15px;background-color:#3C8F46;position:fixed;bottom:3%;right:3%;z-index:100;">Apply Now!&nbsp;</a>
+    <script>
+    function loopCall() {
+        var applyButton = document.getElementById('applyButton');
+        console.log(applyButton.style.background);
+        if(applyButton.style.background === 'rgb(60, 143, 70)') {
+            applyButton.style.background = 'white';      
+            applyButton.style.color = '#3C8F46';      
+        } else {
+            applyButton.style.background = '#3C8F46';      
+            applyButton.style.color = 'white';      
+        }
+    }
+
+    var loopSpeed = 1000; //ms
+    setInterval(loopCall, loopSpeed);
+    </script>
 
     <!-- Masthead -->
     <header class="masthead" style="background-image: url('img/agency/backgrounds/bg-header.jpg');">
