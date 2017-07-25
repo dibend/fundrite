@@ -12,15 +12,8 @@
 
     <link rel="shortcut icon" href="img/agency/fav.png" type="image/png"/>
 
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-102944684-1', 'auto');
-    ga('send', 'pageview');
-    </script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/jquery.form.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -49,20 +42,30 @@
 <body id="page-top">
     <div style="background:#3A8F44;">
     <h1 style="margin:auto;text-align:center;color:white">
-        <br>Apply Now!<br>
+        <br>Calculate Your<br>Merchant Cash Advance Cost!<br>
         <i class="fa fa-arrow-down" aria-hidden="true"></i>
     </h1>
     <br>
     </div>
     <section class="page-section signup-form bg-inverse text-white">
         <div class="container text-center">
-            <h5>SUBMITTING THIS APPLICATION IS EQUIVALENT TO A SIGNATURE</h5>
+            <h3>MCA Loan Calculator</h3>
             <hr class="colored">
             <div class="row">
                 <div id="whole" class="col-lg-8 offset-lg-2">
-                    <div>
-                    <form action="/submit" style="text-align:left"><br><br><h5>Business Name:</h5><input name="name" id="input" class="form-control" value=""><br><h5>Business Phone:</h5><input name="phone" id="input" class="form-control" value=""><br><h5>Business Fax:</h5><input name="fax" id="input" class="form-control" value=""><br><h5>Business Address:</h5><input name="address" id="input" class="form-control" value=""><br><h5>Desired Loan Amount:</h5><input name="loan" id="input" class="form-control" value=""><br><h5>Federal I.D. Number:</h5><input name="fedid" id="input" class="form-control" value=""><br><h5>Date of Incorporation:</h5><input name="dateinc" id="input" class="form-control" value=""><br><h5>TYPE OF INCORPORATION / OWNERSHIP:</h5><input name="typeinc" id="input" class="form-control" value=""><br><h5>TYPE OF BUSINESS:</h5><input name="typebis" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S FULL LEGAL NAME:</h5><input name="owner1" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S TITLE:</h5><input name="owner1title" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S OWNERSHIP PERCENTAGE:</h5><input name="owner1perc" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S SOCIAL SECURITY NUMBER:</h5><input name="owner1ssn" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME PHONE:</h5><input name="owner1homephone" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S CELL PHONE:</h5><input name="owner1cellphone" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S DATE OF BIRTH:</h5><input name="owner1dob" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S EMAIL:</h5><input name="owner1email" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME ADDRESS:</h5><input name="owner1address" id="input" class="form-control" value=""><br><h5>Second OWNER'S FULL LEGAL NAME:</h5><input name="owner2" id="input" class="form-control" value=""><br><h5>Second OWNER'S TITLE:</h5><input name="owner2title" id="input" class="form-control" value=""><br><h5>Second OWNER'S OWNERSHIP PERCENTAGE:</h5><input name="owner2perc" id="input" class="form-control" value=""><br><h5>Second OWNER'S SOCIAL SECURITY NUMBER:</h5><input name="owner2ssn" id="input" class="form-control" value=""><br><h5>Second OWNER'S HOME PHONE:</h5><input name="owner2homephone" id="input" class="form-control" value=""><br><h5>Second OWNER'S CELL PHONE:</h5><input name="owner2cellphone" id="input" class="form-control" value=""><br><h5>Second OWNER'S DATE OF BIRTH:</h5><input name="owner2dob" id="input" class="form-control" value=""><br><h5>Second OWNER'S EMAIL:</h5><input name="owner2email" id="input" class="form-control" value=""><br><h5>Second OWNER'S HOME ADDRESS:</h5><input name="owner2address" id="input" class="form-control" value=""><br><h5>Financial Needs:</h5><input name="fineed" id="input" class="form-control" value=""><br><h5>Terms of Financing:</h5><input name="term" id="input" class="form-control" value=""><br><h5>Purchase Price:</h5><input name="pp" id="input" class="form-control" value=""><br><h5>Lender:</h5><input name="lender" id="input" class="form-control" value=""><br><h5>Lender's Phone:</h5><input name="lphone" id="input" class="form-control" value=""><br><h5>Lender Contact:</h5><input name="lcontact" id="input" class="form-control" value=""><br><h5>HAS ANY OWNER OR OFFICER FILED BANKRUPTCY IN THE LAST 5 YEARS?</h5><h5><label class="radio-inline" style="padding:5px"><input type="radio" name="bankruptcy" value="true">Yes</label><label class="radio-inline" style="padding:5px"><input checked="checked" type="radio" name="bankruptcy" value="false">No</label></h5><br><button type="submit" class="btn btn-success btn-block">Confirm &amp; Apply</button></form>
-                    </div>
+                    <form action="/submit" style="text-align:left">
+                        <h5>Advanced Amount:</h5>
+                        <input name="name" id="input" class="form-control" value=""><br>
+                        <h5>Factor Rate:</h5>
+                        <input name="name" id="input" class="form-control" value=""><br>
+                        <h5>Monthly Credit Card Sales:</h5>
+                        <input name="name" id="input" class="form-control" value=""><br>
+                        <h5>Credit Card Sales Purchased:</h5>
+                        <input name="name" id="input" class="form-control" value=""><br>
+                        <h5>Origination Fee:</h5>
+                        <input name="name" id="input" class="form-control" value=""><br>
+                        <button type="submit" class="btn btn-success btn-block">Calculate</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -106,7 +109,6 @@
         </div>
     </footer>
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/tether/tether.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 

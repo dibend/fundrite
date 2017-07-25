@@ -14,6 +14,15 @@
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/jquery.form.js"></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-102944684-1', 'auto');
+    ga('send', 'pageview');
+    </script>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -249,7 +258,7 @@
                                 var html = `<span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" onclick="town()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                                 </span>
-                                <input id="input" class="form-control" placeholder="Owner's full legal name...">
+                                <input id="input" class="form-control" placeholder="First owner's full legal name...">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" id="next" onclick="owner1()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                                 </span>`;
