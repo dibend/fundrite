@@ -9,6 +9,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var busboy = require('connect-busboy');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
+var req = require('request');
 var config = require('./config');
 
 var mailer = nodemailer.createTransport(smtpTransport({
@@ -122,6 +123,48 @@ app.get('/submit', function(request, response) {
             mailer.close();
         });
     }
+
+    var nameAr = request.query.owner1.split(' ');
+    var first = nameAr[0];
+    var last = nameAr[nameAr.length-1];
+
+    var microbiltOptions = {
+        method: 'POST',
+        url: config.microbilt_url,
+        qs: {
+            MemberId: config.microbilt_id,
+            MemberPwd: config.microbilt_pass,
+            CallbackUrl: 'blastnotifications.com',
+            CallbackType: 'JSON',
+            ContactBy: 'BOTH',
+            'Customer.CompletionEmail': request.query.owner1email,
+            'Customer.LegalCorporateName': request.query.name,
+            'Customer.PhysicalAddress': request.query.address,
+            'Customer.WorkPhone': request.query.phone,
+            'Customer.FederalTaxId': request.query.fedid,
+            'Customer.DateBusinessStarted': request.query.dateinc,
+            'Customer.TypeOfEntity': request.query.typeinc,
+            'Customer.ContactFirstName': first,
+            'Customer.ContactLastName': last,
+            'Customer.ContactTitle': request.query.owner1title,
+            'Customer.ContactOwnershipPercentage': request.query.owner1perc,
+            'Customer.ContactWorkEmail': request.query.owner1email,
+            'Customer.ContactSSN': request.query.owner1ssn,
+            'Customer.ContactDOB': request.query.owner1dob,
+            'Customer.ContactHomePhone': request.query.owner1homephone,
+            'Customer.ContactCellPhone': request.query.owner1cellphone,
+            'Customer.NoPartner': 'true'
+        },
+        headers: { 
+            'content-type': 'application/x-www-form-urlencoded',
+            accept: 'application/json' 
+        }
+    };
+    req(microbiltOptions, function (error, response, body) {
+        if (error) throw new Error(error);
+        console.log(body);
+    });
+
     console.log('app sent');
     response.redirect('/app_sent.html');
 });
