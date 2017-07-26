@@ -177,10 +177,17 @@ app.get('/submit', function(request, response) {
         form: {
             firstName: first,
             lastName: last,
-            businessPhone: request.query.phone,
-            mobilePhone: request.query.owner1cellphone,
-            email: request.query.email,
-            companyName: request.query.name
+            companyBusinessPhone: request.query.phone,
+            companyFaxPhone: request.query.fax, 
+            ownerEmail: request.query.owner1email,
+            companyName: request.query.name,
+            dba: request.query.name,
+            title: request.query.owner1title,
+            ssn: request.query.owner1ssn,
+            dateOfBirth: request.query.owner1dob,
+            ownerHomePhone: request.query.owner1homephone,
+            ownerMobilePhone: request.query.owner1cellphone,
+            ownership: request.query.owner1perc 
         }
     };
     if(mcaOptions.form.firstName === '' || mcaOptions.form.firstName == null) {
