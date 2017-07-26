@@ -161,7 +161,38 @@ app.get('/submit', function(request, response) {
         }
     };
     req(microbiltOptions, function (error, response, body) {
-        if (error) throw new Error(error);
+        if(error) {
+            console.log(error);
+        }
+        console.log(body);
+    });
+
+    var mcaOptions = {
+        url: config.mca_url,
+        method: 'POST',
+        headers: {
+            X_MCASUITE_APP_ID: config.mca_id,
+            X_MCASUITE_APP_TOKEN: config.mca_pass
+        },
+        form: {
+            firstName: first,
+            lastName: last,
+            businessPhone: request.query.phone,
+            mobilePhone: request.query.owner1cellphone,
+            email: request.query.email,
+            companyName: request.query.name
+        }
+    };
+    if(mcaOptions.form.firstName === '' || mcaOptions.form.firstName == null) {
+        mcaOptions.form.firstName = 'N/A';
+    }
+    if(mcaOptions.form.lastName === '' || mcaOptions.form.lastName == null) {
+        mcaOptions.form.lastName = 'N/A';
+    }
+    req(mcaOptions, function (error, response, body) {
+        if(error) {
+            console.log(error);
+        }
         console.log(body);
     });
 
