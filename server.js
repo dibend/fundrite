@@ -13,26 +13,26 @@ var req = require('request');
 var config = require('./config');
 
 var mailer = nodemailer.createTransport(smtpTransport({
-  host: config.ses_host,
-  secureConnection: true,
-  port: 465,
-  auth: {
-    user: config.ses_user,
-    pass: config.ses_pass
-  }
+    host: config.ses_host,
+    secureConnection: true,
+    port: 465,
+    auth: {
+        user: config.ses_user,
+        pass: config.ses_pass
+    }
 }));
 
 var sslKey = fs.readFileSync('letsencrypt/privkey.pem', 'utf8');
 var sslCert = fs.readFileSync('letsencrypt/cert.pem', 'utf8');
 var ca = [
-  fs.readFileSync('letsencrypt/chain.pem', 'utf8'), 
-  fs.readFileSync('letsencrypt/fullchain.pem', 'utf8')
+    fs.readFileSync('letsencrypt/chain.pem', 'utf8'), 
+    fs.readFileSync('letsencrypt/fullchain.pem', 'utf8')
 ]; 
 
 var creds = {
-  key: sslKey,
-  cert: sslCert,
-  ca: ca
+    key: sslKey,
+    cert: sslCert,
+    ca: ca
 };
 
 var app = express();
@@ -245,13 +245,13 @@ app.post('/up', function(request, response) {
 });
 
 app.get('*', function(request, response) {
-  response.status(404);
-  response.sendFile(path.join(__dirname+'/public/404.html'));
+    response.status(404);
+    response.sendFile(path.join(__dirname+'/public/404.html'));
 });
 
 http.createServer(function (request, response) {
-  response.writeHead(301, { 'Location': 'https://' + request.headers['host'] + request.url });
-  response.end();
+    response.writeHead(301, { 'Location': 'https://' + request.headers['host'] + request.url });
+    response.end();
 }).listen(8080);
 
 https.createServer(creds, app).listen(8443);
