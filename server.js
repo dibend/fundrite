@@ -134,7 +134,7 @@ app.get('/submit', function(request, response) {
         qs: {
             MemberId: config.microbilt_id,
             MemberPwd: config.microbilt_pass,
-            CallbackUrl: 'blastnotifications.com',
+            CallbackUrl: config.microbilt_callback_url,
             CallbackType: 'JSON',
             ContactBy: 'BOTH',
             'Customer.CompletionEmail': request.query.owner1email,
