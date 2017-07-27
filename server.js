@@ -10,6 +10,7 @@ var busboy = require('connect-busboy');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 var req = require('request');
+var bodyParser = require('body-parser');
 var config = require('./config');
 
 var mailer = nodemailer.createTransport(smtpTransport({
@@ -38,6 +39,8 @@ var creds = {
 var app = express();
 app.use(busboy());
 app.use(compression());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true})); 
 app.use(express.static('public'));
 
 app.get('/submit', function(request, response) {
@@ -135,7 +138,6 @@ app.get('/submit', function(request, response) {
             MemberId: config.microbilt_id,
             MemberPwd: config.microbilt_pass,
             CallbackUrl: config.microbilt_callback_url,
-            CallbackType: 'JSON',
             ContactBy: 'BOTH',
             'Customer.CompletionEmail': request.query.owner1email,
             'Customer.LegalCorporateName': request.query.name,
@@ -164,7 +166,6 @@ app.get('/submit', function(request, response) {
         if(error) {
             console.log(error);
         }
-        console.log(body);
     });
 
     var mcaOptions = {
@@ -200,10 +201,7 @@ app.get('/submit', function(request, response) {
         if(error) {
             console.log(error);
         }
-        console.log(body);
     });
-
-    console.log('app sent');
     response.redirect('/app_sent.html');
 });
 
@@ -224,7 +222,6 @@ app.get('/contact', function(request, response) {
       }
       mailer.close();
     });
-    console.log('message sent');
     response.redirect('/message_sent.html');
 });
 
@@ -238,10 +235,27 @@ app.post('/up', function(request, response) {
             } else {
                 var fstream = fs.createWriteStream(upPath + filename);
                 file.pipe(fstream);
+                console.log(upPath + filename + ' uploaded');
             }
         });
     });
     response.send('uploaded');
+});
+
+app.post('/ibv', function(request, response) {
+    var mailOptions = {
+        from: config.from,
+        to: config.to,
+        subject: 'New Fundrite Applicant Bank Statements',
+        text: config.microbilt_report_url + request.body.Reference,
+    };
+    mailer.sendMail(mailOptions, function(err, res) {
+      if(err) {
+        console.log(err);
+      }
+      mailer.close();
+    });
+    response.send(request.body);
 });
 
 app.get('*', function(request, response) {
