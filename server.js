@@ -44,48 +44,48 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 
 app.get('/submit', function(request, response) {
-    var emailText = 'Business Name:\n' + request.query.name + 
-    '\n\nBusiness Phone:\n' + request.query.phone +
-    '\n\nBusiness Fax:\n' + request.query.fax +
-    '\n\nBusiness Address:\n' + request.query.address +
-    '\n\nDesired Loan Amount:\n' + request.query.loan +
-    '\n\nFederal I.D. Number:\n' + request.query.fedid +
-    '\n\nDate of Incorporation:\n' + request.query.dateinc +
-    '\n\nType of Incorporation/Ownership:\n' + request.query.typeinc +
-    '\n\nType of Business:\n' + request.query.typebis +
-    '\n\nFirst Owner\'s Full Legal Name:\n' + request.query.owner1 +
-    '\n\nFirst Owner\'s Title:\n' + request.query.owner1title +
-    '\n\nFirst Owner\'s Ownership Percentage:\n' + request.query.owner1perc +
-    '\n\nFirst Owner\'s Social Security Number:\n' + request.query.owner1ssn +
-    '\n\nFirst Owner\'s Home Phone:\n' + request.query.owner1homephone +
-    '\n\nFirst Owner\'s Cell Phone:\n' + request.query.owner1cellphone +
-    '\n\nFirst Owner\'s Date of Birth:\n' + request.query.owner1dob +
-    '\n\nFirst Owner\'s Email:\n' + request.query.owner1email +
-    '\n\nFirst Owner\'s Home Address:\n' + request.query.owner1address;
-    
-    if('owner2' in request.query) {
-        emailText += '\n\nSecond Owner\'s Full Legal Name:\n' + request.query.owner2 +
-        '\n\nSecond Owner\'s Title:\n' + request.query.owner2title +
-        '\n\nSecond Owner\'s Ownership Percentage:\n' + request.query.owner2perc +
-        '\n\nSecond Owner\'s Social Security Number:\n' + request.query.owner2ssn +
-        '\n\nSecond Owner\'s Home Phone:\n' + request.query.owner2homephone +
-        '\n\nSecond Owner\'s Cell Phone:\n' + request.query.owner2cellphone +
-        '\n\nSecond Owner\'s Date of Birth:\n' + request.query.owner2dob +
-        '\n\nSecond Owner\'s Email:\n' + request.query.owner2email +
-        '\n\nSecond Owner\'s Home Address:\n' + request.query.owner2address;
+    var applicant = {
+        'Business Name': request.query.name, 
+        'Business Phone': request.query.phone,
+        'Business Fax': request.query.fax,
+        'Business Address': request.query.address,
+        'Desired Loan Amount': request.query.loan,
+        'Federal I.D. Number': request.query.fedid,
+        'Date of Incorporation': request.query.dateinc,
+        'Type of Incorporation/Ownership': request.query.typeinc,
+        'Type of Business': request.query.typebis,
+        'First Owner\'s Full Legal Name': request.query.owner1,
+        'First Owner\'s Title': request.query.owner1title,
+        'First Owner\'s Ownership Percentage': request.query.owner1perc,
+        'First Owner\'s Social Security Number': request.query.owner1ssn,
+        'First Owner\'s Home Phone': request.query.owner1homephone,
+        'First Owner\'s Cell Phone': request.query.owner1cellphone,
+        'First Owner\'s Date of Birth': request.query.owner1dob,
+        'First Owner\'s Email': request.query.owner1email,
+        'First Owner\'s Home Address': request.query.owner1address,
+        'Second Owner\'s Full Legal Name': request.query.owner2,
+        'Second Owner\'s Title': request.query.owner2title,
+        'Second Owner\'s Ownership Percentage': request.query.owner2perc,
+        'Second Owner\'s Social Security Number': request.query.owner2ssn,
+        'Second Owner\'s Home Phone': request.query.owner2homephone,
+        'Second Owner\'s Cell Phone': request.query.owner2cellphone,
+        'Second Owner\'s Date of Birth': request.query.owner2dob,
+        'Second Owner\'s Email': request.query.owner2email,
+        'Second Owner\'s Home Address': request.query.owner2address,
+        'Financial Needs': request.query.fineed,
+        'Terms of Financing': request.query.term,
+        'Purchase Price': request.query.pp,
+        'Lender': request.query.lender,
+        'Lender\'s Phone': request.query.lphone,
+        'Lender Contact': request.query.lcontact,
+        'Owner/Officer Bankruptcy in Last 5 Years': request.query.bankruptcy
     }
-
-    emailText += '\n\nFinancial Needs:\n' + request.query.fineed;
-
-    if('term' in request.query) {
-        emailText += '\n\nTerms of Financing:\n' + request.query.term +
-        '\n\nPurchase Price:\n' + request.query.pp +
-        '\n\nLender:\n' + request.query.lender +
-        '\n\nLender\'s Phone:\n' + request.query.lphone +
-        '\n\nLender Contact:\n' + request.query.lcontact;
+    var emailText = '';
+    for(dp in applicant) {
+        if(applicant[dp] !== '') {
+            emailText += dp + ':\n' + applicant[dp] + '\n\n';
+        }
     }
-
-    emailText += '\n\nOwner/Officer Bankruptcy in Last 5 Years:\n' + request.query.bankruptcy;
 
     var mailOptions = {
         from: config.from,
