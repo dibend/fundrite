@@ -80,11 +80,17 @@ app.get('/submit', function(request, response) {
         'Lender Contact': request.query.lcontact,
         'Owner/Officer Bankruptcy in Last 5 Years': request.query.bankruptcy
     }
+    var filled = 0;
     var emailText = '';
     for(dp in applicant) {
         if(applicant[dp] !== '') {
             emailText += dp + ':\n' + applicant[dp] + '\n\n';
+            filled++;
         }
+    }
+    if(filled < 2) {
+        response.redirect('/apply.html');
+        return;
     }
 
     var mailOptions = {
@@ -127,9 +133,14 @@ app.get('/submit', function(request, response) {
         });
     }
 
-    var nameAr = request.query.owner1.split(' ');
-    var first = nameAr[0];
-    var last = nameAr[nameAr.length-1];
+
+    var first;
+    var last;
+    if(request.query.owner1 !== null) {
+        var nameAr = request.query.owner1.split(' ');
+        first = nameAr[0];
+        last = nameAr[nameAr.length-1];
+    }
 
     var microbiltOptions = {
         method: 'POST',
