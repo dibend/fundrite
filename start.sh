@@ -1,3 +1,3 @@
 #!/bin/bash
 
-nohup node server.js &> fundrite.log &
+nohup node server.js &> log.csv &

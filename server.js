@@ -11,6 +11,7 @@ var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 var req = require('request');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 var config = require('./config');
 
 var mailer = nodemailer.createTransport(smtpTransport({
@@ -36,11 +37,14 @@ var creds = {
     ca: ca
 };
 
+console.log('"ip","date","method","url","status","time"');
+
 var app = express();
 app.use(busboy());
 app.use(compression());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true})); 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(morgan('":remote-addr",":date[web]",":method",":url",":status",":response-time ms"'));
 app.use(express.static('public'));
 
 app.get('/submit', function(request, response) {
