@@ -156,7 +156,7 @@
                                 var html = `<span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" onclick="baddress()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                                 </span>
-                                <input id="input" class="form-control" placeholder="Desired loan amount...">
+                                <input id="input" class="form-control" placeholder="Desired funding amount...">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" id="next" onclick="fedid()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                                 </span>`;
@@ -165,14 +165,14 @@
                                 $("#tit").animate({height:'toggle'},500);
                                 $("#tit").animate({height:'toggle'},1000);
                                 document.getElementById('app').innerHTML = html;
-                                document.getElementById('tit').innerHTML = 'Desired Loan Amount:';
+                                document.getElementById('tit').innerHTML = 'Desired Funding Amount:';
                                 document.getElementById('input').focus();
                                 document.getElementById('input').select();
                                 document.getElementById('bar').setAttribute('style', 'width:14%');
                                 listenEnterPress();
                             };
                             function fedid() {
-                                sessionStorage.setItem('loan', document.getElementById("input").value);
+                                sessionStorage.setItem('funding', document.getElementById("input").value);
                                 var html = `<span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" onclick="amount()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                                 </span>
@@ -859,7 +859,7 @@
                                 '<br><h5>Business Phone:</h5><input name="phone" id="input" class="form-control" value="' + sessionStorage.getItem('phone') + '">' + 
                                 '<br><h5>Business Fax:</h5><input name="fax" id="input" class="form-control" value="' + sessionStorage.getItem('fax') + '">' + 
                                 '<br><h5>Business Address:</h5><input name="address" id="input" class="form-control" value="' + sessionStorage.getItem('address') + '">' + 
-                                '<br><h5>Desired Loan Amount:</h5><input name="loan" id="input" class="form-control" value="' + sessionStorage.getItem('loan') + '">' + 
+                                '<br><h5>Desired Funding Amount:</h5><input name="funding" id="input" class="form-control" value="' + sessionStorage.getItem('funding') + '">' + 
                                 '<br><h5>Federal I.D. Number:</h5><input name="fedid" id="input" class="form-control" value="' + sessionStorage.getItem('fedid') + '">' + 
                                 '<br><h5>Date of Incorporation:</h5><input name="dateinc" id="input" class="form-control" value="' + sessionStorage.getItem('dateinc') + '">' + 
                                 '<br><h5>TYPE OF INCORPORATION / OWNERSHIP:</h5><input name="typeinc" id="input" class="form-control" value="' + sessionStorage.getItem('typeinc') + '">' + 

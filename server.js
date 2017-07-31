@@ -53,7 +53,7 @@ app.get('/submit', function(request, response) {
         'Business Phone': request.query.phone,
         'Business Fax': request.query.fax,
         'Business Address': request.query.address,
-        'Desired Loan Amount': request.query.loan,
+        'Desired Funding Amount': request.query.funding,
         'Federal I.D. Number': request.query.fedid,
         'Date of Incorporation': request.query.dateinc,
         'Type of Incorporation/Ownership': request.query.typeinc,
