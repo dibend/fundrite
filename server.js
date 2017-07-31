@@ -120,18 +120,18 @@ app.get('/submit', function(request, response) {
             mailOptions.attachments = attachments;
             mailer.sendMail(mailOptions, function(err, res) {
                 if(err) {
-                    console.log(err);
+                    console.error(err);
                 }
                 mailer.close();
                 rimraf(upPath, function() {
-                    console.log(upPath + ' deleted');
+                    console.error(upPath + ' deleted');
                 });
             });
         });
     } else {
         mailer.sendMail(mailOptions, function(err, res) {
             if(err) {
-                console.log(err);
+                console.error(err);
             }
             mailer.close();
         });
@@ -179,7 +179,7 @@ app.get('/submit', function(request, response) {
     };
     req(microbiltOptions, function (error, response, body) {
         if(error) {
-            console.log(error);
+            console.error(error);
         }
     });
 
@@ -214,7 +214,7 @@ app.get('/submit', function(request, response) {
     }
     req(mcaOptions, function (error, response, body) {
         if(error) {
-            console.log(error);
+            console.error(error);
         }
     });
     response.redirect('/app_sent.html');
@@ -233,7 +233,7 @@ app.get('/contact', function(request, response) {
 
     mailer.sendMail(mailOptions, function(err, res) {
       if(err) {
-        console.log(err);
+        console.error(err);
       }
       mailer.close();
     });
@@ -250,7 +250,7 @@ app.post('/up', function(request, response) {
             } else {
                 var fstream = fs.createWriteStream(upPath + filename);
                 file.pipe(fstream);
-                console.log(upPath + filename + ' uploaded');
+                console.error(upPath + filename + ' uploaded');
             }
         });
     });
@@ -266,7 +266,7 @@ app.post('/ibv', function(request, response) {
     };
     mailer.sendMail(mailOptions, function(err, res) {
       if(err) {
-        console.log(err);
+        console.error(err);
       }
       mailer.close();
     });

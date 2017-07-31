@@ -1,4 +1,5 @@
 node_modules
 letsencrypt
-log.csv
+requests.csv
+fundrite.log
 config.json
