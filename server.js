@@ -223,6 +223,11 @@ app.get('/submit', function(request, response) {
 });
 
 app.get('/contact', function(request, response) {
+    if(request.query['g-recaptcha-response'] === '' || request.query['g-recaptcha-response'] == null) {
+        response.redirect('/#contact');
+        return;
+    }
+
     var mailOptions = {
       from: config.from,
       to: config.to,
