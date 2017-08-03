@@ -46,6 +46,7 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(ipfilter(config.blacklist, {log: false}));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public', {extensions: ['html']}));
 app.use(morgan('":remote-addr",":date[web]",":method",":url",":status",":response-time ms"'));
 app.use(express.static('public'));
 
