@@ -3,3 +3,4 @@ letsencrypt
 requests.csv
 fundrite.log
 config.json
+*.swp
