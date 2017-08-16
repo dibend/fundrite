@@ -44,18 +44,21 @@ var app = express();
 app.use(busboy());
 app.use(compression());
 app.use(bodyParser.json());
-app.use(ipfilter(config.blacklist, {log: false}));
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(ipfilter(config.blacklist, {log: false}));
 app.use(express.static('public', {extensions: ['html']}));
 app.use(morgan('":remote-addr",":date[web]",":method",":url",":status",":response-time ms"'));
-app.use(express.static('public'));
 
 app.get('/submit', function(request, response) {
     var applicant = {
         'Business Name': request.query.name, 
         'Business Phone': request.query.phone,
         'Business Fax': request.query.fax,
-        'Business Address': request.query.address,
+        'Business Address': request.query.baddress,
+        'Business City': request.query.bcity,
+        'Business State': request.query.bstate,
+        'Business Zip': request.query.bzip,
         'Desired Funding Amount': request.query.funding,
         'Federal I.D. Number': request.query.fedid,
         'Date of Incorporation': request.query.dateinc,
@@ -90,12 +93,12 @@ app.get('/submit', function(request, response) {
     var filled = 0;
     var emailText = '';
     for(dp in applicant) {
-        if(applicant[dp] !== '') {
+        if((applicant[dp] !== '') && (applicant[dp] !== null)) {
             emailText += dp + ':\n' + applicant[dp] + '\n\n';
             filled++;
         }
     }
-    if(filled < 2) {
+    if(filled < 3) {
         response.redirect('/apply.html');
         return;
     }
@@ -149,13 +152,13 @@ app.get('/submit', function(request, response) {
         last = nameAr[nameAr.length-1];
     }
 
-    var microbiltOptions = {
+    var ibvOptions = {
         method: 'POST',
-        url: config.microbilt_url,
+        url: config.ibv_url,
         qs: {
-            MemberId: config.microbilt_id,
-            MemberPwd: config.microbilt_pass,
-            CallbackUrl: config.microbilt_callback_url,
+            MemberId: config.ibv_id,
+            MemberPwd: config.ibv_pass,
+            CallbackUrl: config.ibv_callback_url,
             ContactBy: 'BOTH',
             'Customer.CompletionEmail': request.query.owner1email,
             'Customer.LegalCorporateName': request.query.name,
@@ -173,14 +176,18 @@ app.get('/submit', function(request, response) {
             'Customer.ContactDOB': request.query.owner1dob,
             'Customer.ContactHomePhone': request.query.owner1homephone,
             'Customer.ContactCellPhone': request.query.owner1cellphone,
-            'Customer.NoPartner': 'true'
+            'Customer.NoPartner': 'true',
+            'Customer.PhysicalAddress': request.query.baddress,
+            'Customer.City': request.query.bcity,
+            'Customer.State': request.query.bstate,
+            'Customer.Zip': request.query.bzip
         },
         headers: { 
             'content-type': 'application/x-www-form-urlencoded',
             accept: 'application/json' 
         }
     };
-    req(microbiltOptions, function (error, response, body) {
+    req(ibvOptions, function (error, response, body) {
         if(error) {
             console.error(error);
         }
@@ -270,7 +277,7 @@ app.post('/ibv', function(request, response) {
         from: config.from,
         to: config.to,
         subject: 'New Fundrite Applicant Bank Statements',
-        text: config.microbilt_report_url + request.body.Reference,
+        text: config.ibv_report_url + request.body.Reference,
     };
     mailer.sendMail(mailOptions, function(err, res) {
       if(err) {
