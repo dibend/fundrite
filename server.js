@@ -72,7 +72,10 @@ app.get('/submit', function(request, response) {
         'First Owner\'s Cell Phone': request.query.owner1cellphone,
         'First Owner\'s Date of Birth': request.query.owner1dob,
         'First Owner\'s Email': request.query.owner1email,
-        'First Owner\'s Home Address': request.query.owner1address,
+        'First Owner\'s Home Street Address': request.query.owner1address,
+        'First Owner\'s Home City': request.query.owner1city,
+        'First Owner\'s Home State': request.query.owner1state,
+        'First Owner\'s Home Zip': request.query.owner1zip,
         'Second Owner\'s Full Legal Name': request.query.owner2,
         'Second Owner\'s Title': request.query.owner2title,
         'Second Owner\'s Ownership Percentage': request.query.owner2perc,
@@ -93,7 +96,7 @@ app.get('/submit', function(request, response) {
     var filled = 0;
     var emailText = '';
     for(dp in applicant) {
-        if((applicant[dp] !== '') && (applicant[dp] !== null)) {
+        if(applicant[dp]) {
             emailText += dp + ':\n' + applicant[dp] + '\n\n';
             filled++;
         }
@@ -143,7 +146,6 @@ app.get('/submit', function(request, response) {
         });
     }
 
-
     var first;
     var last;
     if(request.query.owner1 !== null) {
@@ -162,7 +164,6 @@ app.get('/submit', function(request, response) {
             ContactBy: 'BOTH',
             'Customer.CompletionEmail': request.query.owner1email,
             'Customer.LegalCorporateName': request.query.name,
-            'Customer.PhysicalAddress': request.query.address,
             'Customer.WorkPhone': request.query.phone,
             'Customer.FederalTaxId': request.query.fedid,
             'Customer.DateBusinessStarted': request.query.dateinc,
@@ -180,7 +181,11 @@ app.get('/submit', function(request, response) {
             'Customer.PhysicalAddress': request.query.baddress,
             'Customer.City': request.query.bcity,
             'Customer.State': request.query.bstate,
-            'Customer.Zip': request.query.bzip
+            'Customer.Zip': request.query.bzip,
+            'Customer.ContactHomeAddress': request.query.owner1address,
+            'Customer.ContactCity': request.query.owner1city,
+            'Customer.ContactState': request.query.owner1state,
+            'Customer.ContactZIP': request.query.owner1zip
         },
         headers: { 
             'content-type': 'application/x-www-form-urlencoded',
@@ -191,6 +196,61 @@ app.get('/submit', function(request, response) {
         if(error) {
             console.error(error);
         }
+    });
+
+    var experianXml =`<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="http://schema.microbilt.com/messages/" xmlns:glob="http://schema.microbilt.com/globals">
+    <soapenv:Header/>
+     <soapenv:Body>
+      <mes:GetReport>
+         <mes:inquiry>
+            <MsgRqHdr xmlns="http://schema.microbilt.com/globals">
+               <MemberId>` + config.experian_id + `</MemberId>
+               <MemberPwd>` + config.experian_pass + `</MemberPwd>
+            </MsgRqHdr>
+            <PersonInfo xmlns="http://schema.microbilt.com/globals">
+               <PersonName>
+                  <FirstName>` + first + `</FirstName>
+                  <LastName>` + last + `</LastName>
+               </PersonName>
+               <ContactInfo>
+                  <PostAddr>
+                     <Addr1>` + request.query.owner1address + `</Addr1>
+                     <City>` + request.query.owner1city + `</City>
+                     <StateProv>` + request.query.owner1state + `</StateProv>
+                     <PostalCode>` + request.query.owner1zip + `</PostalCode>
+                     <Country>USA</Country>
+                  </PostAddr>
+               </ContactInfo>
+               <TINInfo>
+                  <TINType>SSN</TINType>
+                  <TaxId>` + request.query.owner1ssn + `</TaxId>
+               </TINInfo>
+            </PersonInfo>
+         </mes:inquiry>
+      </mes:GetReport>
+     </soapenv:Body>
+    </soapenv:Envelope>`;
+    req.post({
+        url: config.experian_url,
+        body: experianXml,
+        headers: {
+            'Content-Type': 'text/xml',
+            SOAPAction: 'http://schema.microbilt.com/messages/GetReport'
+        }
+    }, function(error, response, body) {
+        var mailOptions = {
+            from: config.from,
+            to: config.to,
+            subject: 'New Fundrite Applicant Credit Report',
+            text: 'https://creditserver.microbilt.com/WebServices/gethtml/gethtml.aspx?guid=' + body.match(new RegExp('\<RqUID\>(.*)\<\/RqUID\>'))[1]
+        };
+        mailer.sendMail(mailOptions, function(err, res) {
+            if(err) {
+                console.error(err);
+                console.error(mailOptions);
+            }
+            mailer.close();
+        });
     });
 
     var mcaOptions = {
@@ -282,6 +342,7 @@ app.post('/ibv', function(request, response) {
     mailer.sendMail(mailOptions, function(err, res) {
       if(err) {
         console.error(err);
+        console.error(mailOptions);
       }
       mailer.close();
     });

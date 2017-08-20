@@ -63,6 +63,7 @@
                     <div>
                         <form action="/submit" style="text-align:left"><br><br><h5>Business Name:</h5><input name="name" id="input" class="form-control" value=""><br><h5>Business Phone:</h5><input name="phone" id="input" class="form-control" value=""><br><h5>Business Fax:</h5><input name="fax" id="input" class="form-control" value=""><br><h5>Business Street Address:</h5><input name="baddress" id="input" class="form-control" value=""><br><h5>Business City:</h5><input name="bcity" id="input" class="form-control" value=""><br><h5>Business State:</h5>
                                 <select name="bstate" id="bstate" class="form-control">
+                                    <option value=""></option>
                                     <option value="AL">Alabama</option>
 	                                <option value="AK">Alaska</option>
 	                                <option value="AZ">Arizona</option>
@@ -114,7 +115,61 @@
 	                                <option value="WV">West Virginia</option>
 	                                <option value="WI">Wisconsin</option>
 	                                <option value="WY">Wyoming</option>
-                                </select><br><h5>Business Zip:</h5><input name="bzip" id="input" class="form-control" value=""><br><h5>Desired Funding Amount:</h5><input name="funding" id="input" class="form-control" value=""><br><h5>Federal I.D. Number:</h5><input name="fedid" id="input" class="form-control" value=""><br><h5>Date of Incorporation:</h5><input name="dateinc" id="input" class="form-control" value=""><br><h5>TYPE OF INCORPORATION / OWNERSHIP:</h5><input name="typeinc" id="input" class="form-control" value=""><br><h5>TYPE OF BUSINESS:</h5><input name="typebis" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S FULL LEGAL NAME:</h5><input name="owner1" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S TITLE:</h5><input name="owner1title" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S OWNERSHIP PERCENTAGE:</h5><input name="owner1perc" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S SOCIAL SECURITY NUMBER:</h5><input name="owner1ssn" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME PHONE:</h5><input name="owner1homephone" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S CELL PHONE:</h5><input name="owner1cellphone" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S DATE OF BIRTH:</h5><input name="owner1dob" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S EMAIL:</h5><input name="owner1email" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME ADDRESS:</h5><input name="owner1address" id="input" class="form-control" value=""><br><h5>Second OWNER'S FULL LEGAL NAME:</h5><input name="owner2" id="input" class="form-control" value=""><br><h5>Second OWNER'S TITLE:</h5><input name="owner2title" id="input" class="form-control" value=""><br><h5>Second OWNER'S OWNERSHIP PERCENTAGE:</h5><input name="owner2perc" id="input" class="form-control" value=""><br><h5>Second OWNER'S SOCIAL SECURITY NUMBER:</h5><input name="owner2ssn" id="input" class="form-control" value=""><br><h5>Second OWNER'S HOME PHONE:</h5><input name="owner2homephone" id="input" class="form-control" value=""><br><h5>Second OWNER'S CELL PHONE:</h5><input name="owner2cellphone" id="input" class="form-control" value=""><br><h5>Second OWNER'S DATE OF BIRTH:</h5><input name="owner2dob" id="input" class="form-control" value=""><br><h5>Second OWNER'S EMAIL:</h5><input name="owner2email" id="input" class="form-control" value=""><br><h5>Second OWNER'S HOME ADDRESS:</h5><input name="owner2address" id="input" class="form-control" value=""><br><h5>Financial Needs:</h5><input name="fineed" id="input" class="form-control" value=""><br><h5>Terms of Financing:</h5><input name="term" id="input" class="form-control" value=""><br><h5>Purchase Price:</h5><input name="pp" id="input" class="form-control" value=""><br><h5>Lender:</h5><input name="lender" id="input" class="form-control" value=""><br><h5>Lender's Phone:</h5><input name="lphone" id="input" class="form-control" value=""><br><h5>Lender Contact:</h5><input name="lcontact" id="input" class="form-control" value=""><br><h5>HAS ANY OWNER OR OFFICER FILED BANKRUPTCY IN THE LAST 5 YEARS?</h5><h5><label class="radio-inline" style="padding:5px"><input type="radio" name="bankruptcy" value="true">Yes</label><label class="radio-inline" style="padding:5px"><input checked="checked" type="radio" name="bankruptcy" value="false">No</label></h5><br><button type="submit" class="btn btn-success btn-block">Confirm &amp; Apply</button></form>
+                                </select><br><h5>Business Zip:</h5><input name="bzip" id="input" class="form-control" value=""><br><h5>Desired Funding Amount:</h5><input name="funding" id="input" class="form-control" value=""><br><h5>Federal I.D. Number:</h5><input name="fedid" id="input" class="form-control" value=""><br><h5>Date of Incorporation:</h5><input name="dateinc" id="input" class="form-control" value=""><br><h5>TYPE OF INCORPORATION / OWNERSHIP:</h5><input name="typeinc" id="input" class="form-control" value=""><br><h5>TYPE OF BUSINESS:</h5><input name="typebis" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S FULL LEGAL NAME:</h5><input name="owner1" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S TITLE:</h5><input name="owner1title" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S OWNERSHIP PERCENTAGE:</h5><input name="owner1perc" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S SOCIAL SECURITY NUMBER:</h5><input name="owner1ssn" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME PHONE:</h5><input name="owner1homephone" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S CELL PHONE:</h5><input name="owner1cellphone" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S DATE OF BIRTH:</h5><input name="owner1dob" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S EMAIL:</h5><input name="owner1email" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME Street ADDRESS:</h5><input name="owner1address" id="input" class="form-control" value=""><br><h5>FIRST OWNER'S HOME City:</h5><input name="owner1city" id="input" class="form-control" value=""><br><h5>First Owner's Home State:</h5>
+                                <select name="owner1state" id="owner1state" class="form-control">
+                                    <option value=""></option>
+                                    <option value="AL">Alabama</option>
+	                                <option value="AK">Alaska</option>
+	                                <option value="AZ">Arizona</option>
+	                                <option value="AR">Arkansas</option>
+	                                <option value="CA">California</option>
+	                                <option value="CO">Colorado</option>
+	                                <option value="CT">Connecticut</option>
+	                                <option value="DE">Delaware</option>
+	                                <option value="DC">District Of Columbia</option>
+	                                <option value="FL">Florida</option>
+	                                <option value="GA">Georgia</option>
+	                                <option value="HI">Hawaii</option>
+	                                <option value="ID">Idaho</option>
+	                                <option value="IL">Illinois</option>
+	                                <option value="IN">Indiana</option>
+	                                <option value="IA">Iowa</option>
+	                                <option value="KS">Kansas</option>
+	                                <option value="KY">Kentucky</option>
+	                                <option value="LA">Louisiana</option>
+	                                <option value="ME">Maine</option>
+	                                <option value="MD">Maryland</option>
+	                                <option value="MA">Massachusetts</option>
+	                                <option value="MI">Michigan</option>
+	                                <option value="MN">Minnesota</option>
+	                                <option value="MS">Mississippi</option>
+	                                <option value="MO">Missouri</option>
+	                                <option value="MT">Montana</option>
+	                                <option value="NE">Nebraska</option>
+	                                <option value="NV">Nevada</option>
+	                                <option value="NH">New Hampshire</option>
+	                                <option value="NJ">New Jersey</option>
+	                                <option value="NM">New Mexico</option>
+	                                <option value="NY">New York</option>
+	                                <option value="NC">North Carolina</option>
+	                                <option value="ND">North Dakota</option>
+	                                <option value="OH">Ohio</option>
+	                                <option value="OK">Oklahoma</option>
+	                                <option value="OR">Oregon</option>
+	                                <option value="PA">Pennsylvania</option>
+	                                <option value="RI">Rhode Island</option>
+	                                <option value="SC">South Carolina</option>
+	                                <option value="SD">South Dakota</option>
+	                                <option value="TN">Tennessee</option>
+	                                <option value="TX">Texas</option>
+	                                <option value="UT">Utah</option>
+	                                <option value="VT">Vermont</option>
+	                                <option value="VA">Virginia</option>
+	                                <option value="WA">Washington</option>
+	                                <option value="WV">West Virginia</option>
+	                                <option value="WI">Wisconsin</option>
+	                                <option value="WY">Wyoming</option>
+                                </select><br><h5>FIRST OWNER'S HOME Zip:</h5><input name="owner1zip" id="input" class="form-control" value=""><br><h5>Second OWNER'S FULL LEGAL NAME:</h5><input name="owner2" id="input" class="form-control" value=""><br><h5>Second OWNER'S TITLE:</h5><input name="owner2title" id="input" class="form-control" value=""><br><h5>Second OWNER'S OWNERSHIP PERCENTAGE:</h5><input name="owner2perc" id="input" class="form-control" value=""><br><h5>Second OWNER'S SOCIAL SECURITY NUMBER:</h5><input name="owner2ssn" id="input" class="form-control" value=""><br><h5>Second OWNER'S HOME PHONE:</h5><input name="owner2homephone" id="input" class="form-control" value=""><br><h5>Second OWNER'S CELL PHONE:</h5><input name="owner2cellphone" id="input" class="form-control" value=""><br><h5>Second OWNER'S DATE OF BIRTH:</h5><input name="owner2dob" id="input" class="form-control" value=""><br><h5>Second OWNER'S EMAIL:</h5><input name="owner2email" id="input" class="form-control" value=""><br><h5>Second OWNER'S HOME ADDRESS:</h5><input name="owner2address" id="input" class="form-control" value=""><br><h5>Financial Needs:</h5><input name="fineed" id="input" class="form-control" value=""><br><h5>Terms of Financing:</h5><input name="term" id="input" class="form-control" value=""><br><h5>Purchase Price:</h5><input name="pp" id="input" class="form-control" value=""><br><h5>Lender:</h5><input name="lender" id="input" class="form-control" value=""><br><h5>Lender's Phone:</h5><input name="lphone" id="input" class="form-control" value=""><br><h5>Lender Contact:</h5><input name="lcontact" id="input" class="form-control" value=""><br><h5>HAS ANY OWNER OR OFFICER FILED BANKRUPTCY IN THE LAST 5 YEARS?</h5><h5><label class="radio-inline" style="padding:5px"><input type="radio" name="bankruptcy" value="true">Yes</label><label class="radio-inline" style="padding:5px"><input checked="checked" type="radio" name="bankruptcy" value="false">No</label></h5><br><button type="submit" class="btn btn-success btn-block">Confirm &amp; Apply</button></form>
                     </div>
                 </div>
             </div>
