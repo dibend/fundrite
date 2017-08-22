@@ -38,6 +38,7 @@ var creds = {
     ca: ca
 };
 
+//Request CSV Columns
 console.log('"ip","date","method","url","status","time"');
 
 var app = express();
@@ -198,60 +199,62 @@ app.get('/submit', function(request, response) {
         }
     });
 
-    var experianXml =`<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="http://schema.microbilt.com/messages/" xmlns:glob="http://schema.microbilt.com/globals">
-    <soapenv:Header/>
-     <soapenv:Body>
-      <mes:GetReport>
-         <mes:inquiry>
-            <MsgRqHdr xmlns="http://schema.microbilt.com/globals">
-               <MemberId>` + config.experian_id + `</MemberId>
-               <MemberPwd>` + config.experian_pass + `</MemberPwd>
-            </MsgRqHdr>
-            <PersonInfo xmlns="http://schema.microbilt.com/globals">
-               <PersonName>
-                  <FirstName>` + first + `</FirstName>
-                  <LastName>` + last + `</LastName>
-               </PersonName>
-               <ContactInfo>
-                  <PostAddr>
-                     <Addr1>` + request.query.owner1address + `</Addr1>
-                     <City>` + request.query.owner1city + `</City>
-                     <StateProv>` + request.query.owner1state + `</StateProv>
-                     <PostalCode>` + request.query.owner1zip + `</PostalCode>
-                     <Country>USA</Country>
-                  </PostAddr>
-               </ContactInfo>
-               <TINInfo>
-                  <TINType>SSN</TINType>
-                  <TaxId>` + request.query.owner1ssn + `</TaxId>
-               </TINInfo>
-            </PersonInfo>
-         </mes:inquiry>
-      </mes:GetReport>
-     </soapenv:Body>
-    </soapenv:Envelope>`;
-    req.post({
-        url: config.experian_url,
-        body: experianXml,
-        headers: {
-            'Content-Type': 'text/xml',
-            SOAPAction: 'http://schema.microbilt.com/messages/GetReport'
-        }
-    }, function(error, response, body) {
-        var mailOptions = {
-            from: config.from,
-            to: config.to,
-            subject: 'New Fundrite Applicant Credit Report',
-            text: 'https://creditserver.microbilt.com/WebServices/gethtml/gethtml.aspx?guid=' + body.match(new RegExp('\<RqUID\>(.*)\<\/RqUID\>'))[1]
-        };
-        mailer.sendMail(mailOptions, function(err, res) {
-            if(err) {
-                console.error(err);
-                console.error(mailOptions);
+    if(first && last && request.query.owner1address && request.query.owner1city && request.query.owner1state && request.query.owner1zip && request.query.owner1ssn) {
+        var experianXml =`<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="http://schema.microbilt.com/messages/" xmlns:glob="http://schema.microbilt.com/globals">
+        <soapenv:Header/>
+         <soapenv:Body>
+          <mes:GetReport>
+             <mes:inquiry>
+                <MsgRqHdr xmlns="http://schema.microbilt.com/globals">
+                   <MemberId>` + config.experian_id + `</MemberId>
+                   <MemberPwd>` + config.experian_pass + `</MemberPwd>
+                </MsgRqHdr>
+                <PersonInfo xmlns="http://schema.microbilt.com/globals">
+                   <PersonName>
+                      <FirstName>` + first + `</FirstName>
+                      <LastName>` + last + `</LastName>
+                   </PersonName>
+                   <ContactInfo>
+                      <PostAddr>
+                         <Addr1>` + request.query.owner1address + `</Addr1>
+                         <City>` + request.query.owner1city + `</City>
+                         <StateProv>` + request.query.owner1state + `</StateProv>
+                         <PostalCode>` + request.query.owner1zip + `</PostalCode>
+                         <Country>USA</Country>
+                      </PostAddr>
+                   </ContactInfo>
+                   <TINInfo>
+                      <TINType>SSN</TINType>
+                      <TaxId>` + request.query.owner1ssn + `</TaxId>
+                   </TINInfo>
+                </PersonInfo>
+             </mes:inquiry>
+           </mes:GetReport>
+         </soapenv:Body>
+        </soapenv:Envelope>`;
+        req.post({
+            url: config.experian_url,
+            body: experianXml,
+            headers: {
+                'Content-Type': 'text/xml',
+                SOAPAction: 'http://schema.microbilt.com/messages/GetReport'
             }
-            mailer.close();
+        }, function(error, response, body) {
+            var mailOptions = {
+                from: config.from,
+                to: config.to,
+                subject: 'New Fundrite Applicant Credit Report',
+                text: 'https://creditserver.microbilt.com/WebServices/gethtml/gethtml.aspx?guid=' + body.match(new RegExp('\<RqUID\>(.*)\<\/RqUID\>'))[1]
+            };
+            mailer.sendMail(mailOptions, function(err, res) {
+                if(err) {
+                    console.error(err);
+                    console.error(mailOptions);
+                }
+                mailer.close();
+            });
         });
-    });
+    }
 
     var mcaOptions = {
         url: config.mca_url,
