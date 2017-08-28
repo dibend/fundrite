@@ -110,9 +110,12 @@ app.get('/submit', function(request, response) {
     var mailOptions = {
         from: config.from,
         to: config.to,
-        subject: 'New Fundrite Application',
+        subject: 'Fundrite Application',
         text: emailText,
     };
+    if(request.query.name) {
+        mailOptions.subject = request.query.name + ' Application';
+    }
 
     var attachments = [];
     var upPath = './uploads/' + request.ip + '/';
@@ -243,7 +246,7 @@ app.get('/submit', function(request, response) {
             var mailOptions = {
                 from: config.from,
                 to: config.to,
-                subject: 'New Fundrite Applicant Credit Report',
+                subject: first + ' ' + last + ' Credit Report',
                 text: 'https://creditserver.microbilt.com/WebServices/gethtml/gethtml.aspx?guid=' + body.match(new RegExp('\<RqUID\>(.*)\<\/RqUID\>'))[1]
             };
             mailer.sendMail(mailOptions, function(err, res) {
