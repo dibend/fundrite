@@ -48,8 +48,8 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(ipfilter(config.blacklist, {log: false}));
-app.use(express.static('public', {extensions: ['html']}));
 app.use(morgan('":remote-addr",":date[web]",":method",":url",":status",":response-time ms"'));
+app.use(express.static('public', {extensions: ['html']}));
 
 app.get('/submit', function(request, response) {
     var applicant = {
@@ -243,6 +243,7 @@ app.get('/submit', function(request, response) {
                 SOAPAction: 'http://schema.microbilt.com/messages/GetReport'
             }
         }, function(error, response, body) {
+            console.error('https://creditserver.microbilt.com/WebServices/gethtml/gethtml.aspx?guid=' + body.match(new RegExp('\<RqUID\>(.*)\<\/RqUID\>'))[1]);
             var mailOptions = {
                 from: config.from,
                 to: config.to,
@@ -339,6 +340,7 @@ app.post('/up', function(request, response) {
 });
 
 app.post('/ibv', function(request, response) {
+    console.error(config.ibv_report_url + request.body.Reference);
     var mailOptions = {
         from: config.from,
         to: config.to,
