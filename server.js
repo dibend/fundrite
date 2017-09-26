@@ -358,7 +358,8 @@ app.post('/ibv', function(request, response) {
 });
 
 app.post('/session', function(request, response) {
-    console.error(request.query, request.ip);
+    console.error(request.query, request.ip + ' ' + new Date());
+    response.send();
 });
 
 app.get('*', function(request, response) {
