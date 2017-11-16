@@ -1,4 +1,5 @@
 var fs = require('fs');
+var crypto = require('crypto');
 var express = require('express');
 var http = require('http');
 var https = require('https');
@@ -294,6 +295,7 @@ app.get('/submit', function(request, response) {
             console.error(error);
         }
     });
+    var secret = crypto.randomBytes(64).toString('hex');
     response.redirect('/app_sent.html');
 });
 
@@ -362,9 +364,12 @@ app.post('/session', function(request, response) {
     response.send();
 });
 
+app.get('/crm', function(request, response) {
+    response.redirect(config.crm);
+});
+
 app.get('*', function(request, response) {
-    response.status(404);
-    response.sendFile(path.join(__dirname+'/public/404.html'));
+    response.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
 http.createServer(function (request, response) {
